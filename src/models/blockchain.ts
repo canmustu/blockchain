@@ -19,7 +19,6 @@ export class Blockchain {
   }
 
   createBlock(data: any) {
-    debugger;
     /* get last block of the chain */
     const lastBlock = this.lastBlock;
     /* get last block index of the chain */
