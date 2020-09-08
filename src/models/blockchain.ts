@@ -1,39 +1,47 @@
-class Blockchain {
+import { Block } from './block';
 
+export class Blockchain {
+
+  /* main chain */
   private _chain: Block[] = [];
 
   constructor() {
+    this.createGenesisBlock();
+  }
 
+  private createGenesisBlock() {
+    this.createBlock("Genesis Block");
+  }
+
+  private addBlockToChain(block: Block) {
+    this.chain.push(block);
+    console.log(block);
+  }
+
+  createBlock(data: any) {
+    debugger;
+    /* get last block of the chain */
+    const lastBlock = this.lastBlock;
+    /* get last block index of the chain */
+    const newBlockIndex = lastBlock?.index + 1 || 0;
+    const previousHash = lastBlock?.hash || '';
+    /* create new block */
+    const newBlock = new Block(newBlockIndex, data, previousHash);
+    /* add new block to the chain */
+    this.addBlockToChain(newBlock);
   }
 
   get chain() {
     return this._chain;
   }
 
-  createGenesisBlock(): Block {
-    return new Block('data', null);
-  }
-
-  createBlock(data: any) {
-    return new Block(data, null);
-  }
-
-  addGenesisBlock() {
-    const genesisBlock = this.createGenesisBlock();
-    this.addBlock(genesisBlock);
-  }
-
-  addBlock(block: Block) {
-    this.chain.push(block);
-  }
-
-  getLatestBlock() {
-    const lastIndex = this.chain.length - 1;
+  get lastBlock() {
+    const lastIndex = this.lastBlockIndex;
     return this.chain[lastIndex];
   }
 
-}
+  get lastBlockIndex() {
+    return this.chain.length - 1;
+  }
 
-module.exports = {
-  Blockchain: Blockchain
-};
+}
