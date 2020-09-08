@@ -1,17 +1,26 @@
-class Block {
+import { SHA256 } from 'crypto-js';
 
+export class Block {
+
+  private _index: number;
   private _hash: string;
   private _timestamp: number;
   private _previousHash: string;
   private _data: any;
 
-  constructor(data: any, previousHash: string) {
+  constructor(index: number, data: any, previousHash: string) {
     this.setTime();
+    this.setIndex(index);
     this.setPreviousHash(previousHash);
     this.setData(data);
+    this.createHash();
   }
 
   //#region VARIABLE GETTER FUNCTIONS
+
+  get index(): number {
+    return this._index;
+  }
 
   get hash(): string {
     return this._hash;
@@ -33,22 +42,28 @@ class Block {
 
   //#region VARIABLE SETTER FUNCTIONS
 
-  setTime() {
+  private setIndex(index: number) {
+    this._index = index;
+  }
+
+  private setTime() {
     this._timestamp = new Date().getTime();
   }
 
-  setPreviousHash(previousHash: string) {
+  private setPreviousHash(previousHash: string) {
     this._previousHash = previousHash;
   }
 
-  setData(data: any) {
+  private setData(data: any) {
     this._data = data;
+  }
+
+  private createHash() {
+    debugger;
+    const content = `${this.index}${this.previousHash}${this.timestamp}${JSON.stringify(this.data)}`;
+    this._hash = SHA256(content).toString();
   }
 
   //#endregion
 
 }
-
-module.exports = {
-  Block: Block
-};
